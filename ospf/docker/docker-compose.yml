@@ -1,0 +1,307 @@
+version: "3"
+
+networks:  
+  wan:
+    driver: bridge
+
+  net12:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.12.0/29
+          gateway: 10.10.12.6
+  net13:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.13.0/29
+          gateway: 10.10.13.6
+  net23:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.23.0/29
+          gateway: 10.10.23.6
+  net24:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.24.0/29
+          gateway: 10.10.24.6
+  net35:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.35.0/29
+          gateway: 10.10.35.6
+  net45:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.45.0/29
+          gateway: 10.10.45.6
+  net46:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.46.0/29
+          gateway: 10.10.46.6
+  net56:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.56.0/29
+          gateway: 10.10.56.6
+
+  net-r1:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.1.0/24
+          gateway: 10.10.1.254
+  net-r2:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.2.0/24
+          gateway: 10.10.2.254
+  net-r3:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.3.0/24
+          gateway: 10.10.3.254
+  net-r4:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.4.0/24
+          gateway: 10.10.4.254
+  net-r5:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.5.0/24
+          gateway: 10.10.5.254
+  net-r6:
+    enable_ipv6: false
+    driver: bridge
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.6.0/24
+          gateway: 10.10.6.254
+    
+services: 
+  r1:
+    image: frrouting/frr:latest
+    container_name: r1
+    privileged: true
+    volumes:
+      - ./r1/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      wan:
+      net12:
+        ipv4_address: 10.10.12.1
+      net13:
+        ipv4_address: 10.10.13.1
+      net-r1:
+        ipv4_address: 10.10.1.1
+  
+  r2:
+    image: frrouting/frr:latest
+    container_name: r2
+    privileged: true
+    volumes:
+      - ./r2/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      net12:
+        ipv4_address: 10.10.12.2
+      net23:
+        ipv4_address: 10.10.23.1
+      net24:
+        ipv4_address: 10.10.24.1
+      net-r2:
+        ipv4_address: 10.10.2.1
+
+  r3:
+    image: frrouting/frr:latest
+    container_name: r3
+    privileged: true
+    volumes:
+      - ./r3/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      net13:
+        ipv4_address: 10.10.13.2
+      net35:
+        ipv4_address: 10.10.35.1
+      net23:
+        ipv4_address: 10.10.23.2
+      net-r3:
+        ipv4_address: 10.10.3.1
+  
+  r4:
+    image: frrouting/frr:latest
+    container_name: r4
+    privileged: true
+    volumes:
+      - ./r4/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      net24:
+        ipv4_address: 10.10.24.2
+      net45:
+        ipv4_address: 10.10.45.1
+      net46:
+        ipv4_address: 10.10.46.1
+      net-r4:
+        ipv4_address: 10.10.4.1
+
+  r5:
+    image: frrouting/frr:latest
+    container_name: r5
+    privileged: true
+    volumes:
+      - ./r5/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      net35:
+        ipv4_address: 10.10.35.2
+      net45:
+        ipv4_address: 10.10.45.2
+      net56:
+        ipv4_address: 10.10.56.1
+      net-r5:
+        ipv4_address: 10.10.5.1
+
+  r6:
+    image: frrouting/frr:latest
+    container_name: r6
+    privileged: true
+    volumes:
+      - ./r6/frr.conf:/etc/frr/frr.conf
+      - ./daemons:/etc/frr/daemons
+      - ./captures:/captures
+    networks:
+      net46:
+        ipv4_address: 10.10.46.2
+      net56:
+        ipv4_address: 10.10.56.2
+      net-r6:
+        ipv4_address: 10.10.6.1
+
+  capture-r1:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r1
+    network_mode: "container:r1"
+    depends_on: [r1]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r1-traffic.pcap
+
+  capture-r2:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r2
+    network_mode: "container:r2"
+    depends_on: [r2]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r2-traffic.pcap
+
+  capture-r3:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r3
+    network_mode: "container:r3"
+    depends_on: [r3]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r3-traffic.pcap
+
+  capture-r4:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r4
+    network_mode: "container:r4"
+    depends_on: [r4]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r4-traffic.pcap
+
+  capture-r5:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r5
+    network_mode: "container:r5"
+    depends_on: [r5]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r5-traffic.pcap
+
+  capture-r6:
+    image: nicolaka/netshoot:latest
+    container_name: capture-r6
+    network_mode: "container:r6"
+    depends_on: [r6]
+    volumes:
+      - ./captures:/captures
+    command: tcpdump -i any -w /captures/r6-traffic.pcap
+
+  client:
+    image: alpine
+    container_name: client
+    cap_add:
+      - NET_ADMIN
+    depends_on: [r6]
+    networks:
+      net-r6:
+        ipv4_address: 10.10.6.5
+    command: >
+      sh -c "ip route del default 2>/dev/null;
+             ip route add default via 10.10.6.1;
+             tail -f /dev/null"

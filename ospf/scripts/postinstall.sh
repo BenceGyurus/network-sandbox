@@ -1,0 +1,1 @@
+docker exec -it r1 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
